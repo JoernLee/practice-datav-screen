@@ -2,6 +2,10 @@
   <div id="nav">
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
+    <router-link to="/test">test</router-link>
+  </div>
+  <div class="icon-wrapper" >
+    <test-component></test-component>
   </div>
   <router-view/>
 </template>
