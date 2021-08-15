@@ -7,7 +7,7 @@
     </imooc-loading>
     <imooc-container :options="{width: 3840, height: 2160}" v-else>
       <div class="header">
-        111
+        <top-header/>
       </div>
       <div class="separator">
         222
@@ -47,10 +47,12 @@
   import { ref, onMounted } from 'vue'
   import ImoocLoading from '../components/ImoocLoading'
   import ImoocContainer from '../components/Container'
+  import TopHeader from '../components/TopHeader/index'
 
   export default {
     name: 'Home',
     components: {
+      TopHeader,
       ImoocContainer,
       ImoocLoading
     },
