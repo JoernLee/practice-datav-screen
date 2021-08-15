@@ -9,12 +9,16 @@
       <div class="header">
         <top-header/>
       </div>
-      <div class="separator">
-        222
-      </div>
+      <div class="separator-wrapper"/>
       <div class="center">
         <div class="left">
-          <div class="left1">333</div>
+          <div class="left1">
+            <total-user
+              :today-user="todayUser"
+              :growth-last-day="growthLastDay"
+              :growth-last-month="growthLastMonth"
+            />
+          </div>
           <div class="left2">444</div>
           <div class="left3">555</div>
           <div class="left4">666</div>
@@ -45,13 +49,16 @@
 
 <script>
   import { ref, onMounted } from 'vue'
+  import useScreenData from '../hooks/useScreenData'
   import ImoocLoading from '../components/ImoocLoading'
   import ImoocContainer from '../components/Container'
   import TopHeader from '../components/TopHeader/index'
+  import TotalUser from '../components/TotalUser/index'
 
   export default {
     name: 'Home',
     components: {
+      TotalUser,
       TopHeader,
       ImoocContainer,
       ImoocLoading
@@ -66,8 +73,13 @@
         }, 1000)
       })
 
+      const screenData = useScreenData()
+      console.log(useScreenData)
+
       return {
-        loading
+        loading,
+        // 统一通过hook拿到业务数据
+        ...screenData
       }
     }
   }
@@ -96,6 +108,7 @@
 
       .separator-wrapper {
         height: 10px;
+        background: rgb(92, 88, 89);
       }
 
       .center {
