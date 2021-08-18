@@ -17,7 +17,7 @@ export default function () {
       todayUser.value = todayUser.value + 10
       growthLastDay.value = growthLastDay.value + 1
       growthLastMonth.value = growthLastMonth.value + 1
-    }, 1000)
+    }, 3000)
   })
 
   onUnmounted(() => {

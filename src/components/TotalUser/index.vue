@@ -3,14 +3,34 @@
     <div class="title">慕课外卖用户总数</div>
     <div class="sub-title">User Total Count</div>
     <div class="total">
-      {{todayUser}}
+      <!-- startVal要设置为上一次结束的数字，不然每次从0开始过渡动画     -->
+      <vue-count-to
+        :start-val="startVal"
+        :end-val="todayUser"
+        :duration="1000"
+      />
     </div>
     <div class="percent-text">
         <span class="percent-text-1">
-          每日增长率:{{growthLastDay}}
+          每日增长率:
+          <!--需要额外定义小数点位置以及后缀%-->
+          <vue-count-to
+            :start-val="startPercent"
+            :end-val="growthLastDay"
+            :duration="1000"
+            :decimals="2"
+            suffix="%"
+          />
         </span>
       <span class="percent-text-2">
-        每月增长率:{{growthLastMonth}}
+        每月增长率:
+        <vue-count-to
+          :start-val="startPercent2"
+          :end-val="growthLastMonth"
+          :duration="1000"
+          :decimals="2"
+          suffix="%"
+        />
         </span>
     </div>
   </div>
@@ -18,10 +38,12 @@
 
 <script>
 
-  import { ref } from 'vue'
+  import { ref, watch } from 'vue'
+  import VueCountTo from '../VueCountTo/vue-countTo'
 
   export default {
     name: 'totalUser',
+    components: { VueCountTo },
     props: {
       todayUser: Number,
       growthLastDay: {
@@ -37,16 +59,23 @@
       const startVal = ref(0)
       const startPercent = ref(0)
       const startPercent2 = ref(0)
-      const updateStartVal = () => {
-        startVal.value = props.todayUser
-        startPercent.value = props.growthLastDay
-        startPercent2.value = props.growthLastMonth
-      }
+      // 需要添加监听方法，todayuser等props变化时执行操作
+      watch(() => props.todayUser, (nextValue, preValue) => {
+        // nextValue表示减下来改动值， preValue代表上一个状态的值
+        startVal.value = preValue
+      })
+      watch(() => props.growthLastDay, (nextValue, preValue) => {
+        // nextValue表示减下来改动值， preValue代表上一个状态的值
+        startPercent.value = preValue
+      })
+      watch(() => props.growthLastMonth, (nextValue, preValue) => {
+        // nextValue表示减下来改动值， preValue代表上一个状态的值
+        startPercent2.value = preValue
+      })
       return {
         startVal,
         startPercent,
-        startPercent2,
-        updateStartVal
+        startPercent2
       }
     }
   }
