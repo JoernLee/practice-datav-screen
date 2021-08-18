@@ -33,6 +33,12 @@
         />
         </span>
     </div>
+    <div class="percent">
+      <div class="percent-inner-wrapper">
+        <!--通过控制内部div的width来控制进度条的进度,加入overflow-hidden避免溢出-->
+        <div class="percent-inner" :style="{width: `${growthLastDay}%`}"/>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -120,6 +126,29 @@
       .percent-text-2 {
         color: rgb(99, 169, 0);
         margin-left: 10px;
+      }
+    }
+
+    .percent {
+      width: 100%;
+      height: 20px;
+      box-sizing: border-box;
+      border: 1px solid #fff;
+      margin-top: 10px;
+
+      .percent-inner-wrapper {
+        height: 100%;
+        padding: 2px;
+        box-sizing: border-box;
+        overflow: hidden;
+
+        .percent-inner {
+          width: 20%;
+          height: 100%;
+          background: rgb(150, 150, 150);
+          /*更自然*/
+          transition: width 1s linear;
+        }
       }
     }
 
