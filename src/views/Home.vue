@@ -25,7 +25,11 @@
               :avg-age="averageAge"
             />
           </div>
-          <div class="left3">555</div>
+          <div class="left3">
+            <vue-echarts
+              :options="options"
+            />
+          </div>
           <div class="left4">666</div>
           <div class="left5">777</div>
           <div class="left6">888</div>
@@ -60,6 +64,8 @@
   import TopHeader from '../components/TopHeader/index'
   import TotalUser from '../components/TotalUser/index'
   import AverageAge from '../components/AverageAge/index'
+  import VueEcharts from '../components/VueEcharts/VueEcharts'
+  import 'echarts/lib/chart/bar'
 
   export default {
     name: 'Home',
@@ -68,7 +74,8 @@
       TotalUser,
       TopHeader,
       ImoocContainer,
-      ImoocLoading
+      ImoocLoading,
+      VueEcharts
     },
     setup () {
       const loading = ref(true)
@@ -86,7 +93,18 @@
       return {
         loading,
         // 统一通过hook拿到业务数据
-        ...screenData
+        ...screenData,
+        options: {
+          xAxis: {
+            data: ['a', 'b', 'c', 'd']
+          },
+          yAxis: {},
+          series: [{
+            name: 'sales',
+            type: 'bar',
+            data: [10, 15, 20, 25]
+          }]
+        }
       }
     }
   }
