@@ -5,7 +5,7 @@
         <div class="title">慕课外卖用户年龄分布&平均年龄</div>
         <div class="sub-title">Distribution of Age</div>
       </div>
-      <div class="average-age-right">
+      <div class="right">
         <div class="age">
           <vue-count-to
             :startVal="startAge"
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-  import { ref } from 'vue'
+  import { ref, watch } from 'vue'
   import VueCountTo from '../VueCountTo/vue-countTo'
 
   // const color = ['rgb(116,166,49)', 'rgb(190,245,99)', 'rgb(202,252,137)', 'rgb(251,253,142)']
@@ -49,8 +49,11 @@
       data: Array,
       avgAge: Number
     },
-    setup (props) {
+    setup (ctx) {
       const startAge = ref(0)
+      watch(() => ctx.avgAge, (nextValue, prevValue) => {
+        startAge.value = prevValue
+      })
 
       return {
         startAge
@@ -72,6 +75,7 @@
       align-items: center;
 
       .left {
+        max-width: 75%;
         .title {
           font-size: 32px;
         }
@@ -84,11 +88,10 @@
 
       .right {
         flex: 1;
-        margin-left: 40px;
         font-weight: bold;
 
         .age {
-          font-size: 68px;
+          font-size: 38px;
           font-family: DIN;
 
           .age-unit {

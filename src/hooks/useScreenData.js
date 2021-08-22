@@ -23,6 +23,10 @@ const ageMockData = [{
   color: 'rgb(251,253,142)'
 }]
 
+function random (val) {
+  return Math.floor(Math.random() * val)
+}
+
 // 解耦Home组件业务数据
 export default function () {
   // 封装hooks来传递变量，vue2的state是必须维护在组件中，但是vue3则可以解耦
@@ -42,7 +46,14 @@ export default function () {
       todayUser.value = todayUser.value + 10
       growthLastDay.value = growthLastDay.value + 1
       growthLastMonth.value = growthLastMonth.value + 1
+      // 模拟数据变化
       averageAge.value = averageAge.value + 1
+      const _ageData = [...ageData.value]
+      _ageData.forEach(item => {
+        item.startValue = item.value
+        item.value = item.value + random(100)
+      })
+      ageData.value = _ageData
     }, 3000)
   })
 
