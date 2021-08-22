@@ -19,7 +19,12 @@
               :growth-last-month="growthLastMonth"
             />
           </div>
-          <div class="left2">444</div>
+          <div class="left2">
+            <average-age
+              :data="ageData"
+              :avg-age="averageAge"
+            />
+          </div>
           <div class="left3">555</div>
           <div class="left4">666</div>
           <div class="left5">777</div>
@@ -54,10 +59,12 @@
   import ImoocContainer from '../components/Container'
   import TopHeader from '../components/TopHeader/index'
   import TotalUser from '../components/TotalUser/index'
+  import AverageAge from '../components/AverageAge/index'
 
   export default {
     name: 'Home',
     components: {
+      AverageAge,
       TotalUser,
       TopHeader,
       ImoocContainer,

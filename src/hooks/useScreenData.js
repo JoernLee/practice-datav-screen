@@ -1,5 +1,28 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 
+// 平均年龄组件mock数据
+const ageMockData = [{
+  startValue: 0,
+  value: 131107,
+  axis: '0-20',
+  color: 'rgb(116,166,49)'
+}, {
+  startValue: 0,
+  value: 330831,
+  axis: '20-30',
+  color: 'rgb(190,245,99)'
+}, {
+  startValue: 0,
+  value: 551238,
+  axis: '30-50',
+  color: 'rgb(202,252,137)'
+}, {
+  startValue: 0,
+  value: 31088,
+  axis: '>50',
+  color: 'rgb(251,253,142)'
+}]
+
 // 解耦Home组件业务数据
 export default function () {
   // 封装hooks来传递变量，vue2的state是必须维护在组件中，但是vue3则可以解耦
@@ -8,6 +31,8 @@ export default function () {
   const todayUser = ref(10000)
   const growthLastDay = ref(10)
   const growthLastMonth = ref(15)
+  const ageData = ref(ageMockData)
+  const averageAge = ref(0)
 
   // 模拟数据变化
   let task
@@ -17,6 +42,7 @@ export default function () {
       todayUser.value = todayUser.value + 10
       growthLastDay.value = growthLastDay.value + 1
       growthLastMonth.value = growthLastMonth.value + 1
+      averageAge.value = averageAge.value + 1
     }, 3000)
   })
 
@@ -27,6 +53,8 @@ export default function () {
   return {
     todayUser,
     growthLastDay,
-    growthLastMonth
+    growthLastMonth,
+    ageData,
+    averageAge
   }
 }
