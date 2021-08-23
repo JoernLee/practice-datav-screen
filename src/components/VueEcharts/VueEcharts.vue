@@ -21,7 +21,9 @@
           dom = document.getElementsByClassName('echarts')[0]
           chart = Echarts.init(dom, ctx.theme)
         }
-        chart.setOption(ctx.options)
+        if (ctx.options) {
+          chart.setOption(ctx.options)
+        }
       }
       onMounted(() => {
         initChart()

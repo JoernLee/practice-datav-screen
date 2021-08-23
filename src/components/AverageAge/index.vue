@@ -17,7 +17,9 @@
         </div>
       </div>
     </div>
-    <div id="average-age-chart"/>
+    <div id="average-age-chart">
+      <vue-echarts :options="options"/>
+    </div>
     <div class="average-data-wrapper">
       <div class="average-data" v-for="(item, index) in data" :key="index">
         <div class="average-data-value">
@@ -37,26 +39,111 @@
 </template>
 
 <script>
-  import { ref, watch } from 'vue'
+  import { ref, watch, onMounted } from 'vue'
   import VueCountTo from '../VueCountTo/vue-countTo'
+  import VueEcharts from '../VueEcharts/VueEcharts'
 
   // const color = ['rgb(116,166,49)', 'rgb(190,245,99)', 'rgb(202,252,137)', 'rgb(251,253,142)']
 
   export default {
     name: 'averageAge',
-    components: { VueCountTo },
+    components: {
+      VueCountTo,
+      VueEcharts
+    },
     props: {
       data: Array,
       avgAge: Number
     },
     setup (ctx) {
       const startAge = ref(0)
+      const options = ref(null)
+      const updateChart = () => {
+        // 基于外部传入的props-data来更新内部echart需要用到的图表数据
+        const data = ['指标']
+        const color = []
+        const axis = ['指标']
+        let max = 0
+        ctx.data.forEach(item => {
+          data.push(item.value)
+          color.push(item.color)
+          axis.push(item.axis)
+          max += +item.value
+        })
+        options.value = {
+          color,
+          grid: {
+            //  调整图表位置,有时候图表不出来可以尝试调节这个属性
+            left: 40,
+            right: 40,
+            top: 0
+          },
+          dataset: {
+            source: [
+              axis,
+              data
+            ]
+          },
+          // 横向图表，是对Y轴进行分类，所以X轴是value类型
+          xAxis: {
+            type: 'value',
+            max,
+            //  定制一些X轴样式
+            splitLine: {
+              lineStyle: {
+                color: 'rgb(50,51,53)',
+                width: 3
+              }
+            },
+            axisTick: { show: false },
+            axisLabel: {
+              color: 'rgb(98,105,113)',
+              fontSize: 18
+            }
+          },
+          yAxis: {
+            type: 'category',
+            show: false
+          },
+          series: [
+            // 配置四个数据的展现
+            {
+              type: 'bar',
+              stack: 'total',
+              barWidth: 15
+            }, {
+              type: 'bar',
+              stack: 'total'
+            }, {
+              type: 'bar',
+              stack: 'total'
+            }, {
+              type: 'bar',
+              stack: 'total'
+            }
+          ],
+          tooltip: {
+            //  支持交互
+            textStyle: {
+              fontSize: 28
+            },
+            padding: 10
+          }
+        }
+      }
       watch(() => ctx.avgAge, (nextValue, prevValue) => {
         startAge.value = prevValue
       })
+      watch(() => ctx.data, () => {
+        updateChart()
+      })
+      onMounted(() => {
+        updateChart()
+      })
 
       return {
-        startAge
+        startAge,
+        options
       }
     }
   }
@@ -76,6 +163,7 @@
 
       .left {
         max-width: 75%;
+
         .title {
           font-size: 32px;
         }
