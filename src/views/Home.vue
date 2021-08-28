@@ -30,7 +30,11 @@
               :data="deviceData"
             />
           </div>
-          <div class="left4">666</div>
+          <div class="left4">
+            <total-gender
+              :data="genderData"
+            />
+          </div>
           <div class="left5">777</div>
           <div class="left6">888</div>
         </div>
@@ -66,6 +70,7 @@
   import AverageAge from '../components/AverageAge/index'
   import 'echarts/lib/chart/bar'
   import TotalDevice from '../components/TotalDevice/index'
+  import TotalGender from '../components/TotalGender/index'
 
   export default {
     name: 'Home',
@@ -75,7 +80,8 @@
       TotalUser,
       TopHeader,
       ImoocContainer,
-      ImoocLoading
+      ImoocLoading,
+      TotalGender
     },
     setup () {
       const loading = ref(true)
@@ -92,18 +98,7 @@
       return {
         loading,
         // 统一通过hook拿到业务数据
-        ...screenData,
-        options: {
-          xAxis: {
-            data: ['a', 'b', 'c', 'd']
-          },
-          yAxis: {},
-          series: [{
-            name: 'sales',
-            type: 'bar',
-            data: [10, 15, 20, 25]
-          }]
-        }
+        ...screenData
       }
     }
   }

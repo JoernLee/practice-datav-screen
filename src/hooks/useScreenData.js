@@ -37,6 +37,14 @@ const deviceMockData = {
   }]
 }
 
+const genderMockData = [{
+  key: 'male',
+  value: 1442542
+}, {
+  key: 'female',
+  value: 1442548
+}]
+
 function random (val) {
   return Math.floor(Math.random() * val)
 }
@@ -52,6 +60,7 @@ export default function () {
   const ageData = ref(ageMockData)
   const deviceData = ref(deviceMockData)
   const averageAge = ref(0)
+  const genderData = ref(genderMockData)
 
   // 模拟数据变化
   let task
@@ -76,6 +85,12 @@ export default function () {
         item.value += random(100)
       })
       deviceData.value = _deviceData
+      // gender数据更新 - 常见的坑，写成genderData而非取其中value！
+      const _genderData = [...genderData.value]
+      _genderData.forEach(item => {
+        item.value += random(100)
+      })
+      genderData.value = _genderData
     }, 3000)
   })
 
@@ -89,6 +104,7 @@ export default function () {
     growthLastMonth,
     ageData,
     averageAge,
-    deviceData
+    deviceData,
+    genderData
   }
 }

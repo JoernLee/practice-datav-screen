@@ -1,11 +1,11 @@
 <template>
   <div class="average-age">
     <div class="title-wrapper">
-      <div class="left">
+      <div class="left-part">
         <div class="title">慕课外卖用户年龄分布&平均年龄</div>
         <div class="sub-title">Distribution of Age</div>
       </div>
-      <div class="right">
+      <div class="right-part">
         <div class="age">
           <vue-count-to
             :startVal="startAge"
@@ -161,8 +161,7 @@
       display: flex;
       align-items: center;
 
-      .left {
-        max-width: 75%;
+      .left-part {
 
         .title {
           font-size: 32px;
@@ -174,9 +173,10 @@
         }
       }
 
-      .right {
+      .right-part {
         flex: 1;
         font-weight: bold;
+        margin-left: 100px;
 
         .age {
           font-size: 38px;
