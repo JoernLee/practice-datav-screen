@@ -83,30 +83,33 @@
         updateChart()
       }
       const updateChart = () => {
-        function createOption () {
-          return {
-            series: [{
-              name: '访问来源',
-              type: 'pie',
-              radius: '70%',
-              selectedMode: 'multiple',
-              selectedOffset: 10,
-              clockwise: true,
-              center: ['50%', '50%'],
-              color,
-              emphasis: {
-                itemStyle: {
-                  color: 'rgb(140,251,182)'
-                }
-              },
-              data: refData.value,
-              roseType: 'radius',
-              label: { show: false }
-            }]
-          }
+        options.value = {
+          // 扇形绘制方式，圆形不需要XY轴了
+          // series最重要的是type和data，图表类型和数据
+          series: [{
+            name: '设备总数',
+            type: 'pie',
+            data: refData.value,
+            // 通过这个属性设置为南丁格尔（全称是南丁格尔玫瑰图，所以是roseType）
+            roseType: 'radius',
+            label: false,
+            emphasis: {
+              // 设置鼠标hover时颜色
+              itemStyle: {
+                color: 'rgb(140,251,182)'
+              }
+            },
+            radius: '70%',
+            // 从大到小顺时针排列（false为逆时针）
+            clockwise: true,
+            // color: ['red', 'blue', 'green']
+            // 使用预设颜色
+            color,
+            // 点击之后会偏移一定距离
+            selectedMode: 'multiple',
+            selectedOffset: 10
+          }]
         }
-
-        options.value = createOption()
       }
       watch(() => props.data, (newData) => {
         update(newData)
@@ -137,7 +140,7 @@
 
       #total-device-chart {
         width: 100%;
-        height: 120px;
+        height: 100%;
       }
     }
 
