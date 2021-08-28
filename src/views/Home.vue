@@ -26,8 +26,8 @@
             />
           </div>
           <div class="left3">
-            <vue-echarts
-              :options="options"
+            <total-device
+              :data="deviceData"
             />
           </div>
           <div class="left4">666</div>
@@ -64,18 +64,18 @@
   import TopHeader from '../components/TopHeader/index'
   import TotalUser from '../components/TotalUser/index'
   import AverageAge from '../components/AverageAge/index'
-  import VueEcharts from '../components/VueEcharts/VueEcharts'
   import 'echarts/lib/chart/bar'
+  import TotalDevice from '../components/TotalDevice/index'
 
   export default {
     name: 'Home',
     components: {
+      TotalDevice,
       AverageAge,
       TotalUser,
       TopHeader,
       ImoocContainer,
-      ImoocLoading,
-      VueEcharts
+      ImoocLoading
     },
     setup () {
       const loading = ref(true)
@@ -88,7 +88,6 @@
       })
 
       const screenData = useScreenData()
-      console.log(useScreenData)
 
       return {
         loading,

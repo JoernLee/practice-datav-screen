@@ -23,6 +23,20 @@ const ageMockData = [{
   color: 'rgb(251,253,142)'
 }]
 
+const deviceMockData = {
+  totalDevices: 1070909,
+  devices: [{
+    key: 'Android',
+    value: 423676
+  }, {
+    key: 'iOS',
+    value: 373581
+  }, {
+    key: 'PC',
+    value: 273652
+  }]
+}
+
 function random (val) {
   return Math.floor(Math.random() * val)
 }
@@ -36,6 +50,7 @@ export default function () {
   const growthLastDay = ref(10)
   const growthLastMonth = ref(15)
   const ageData = ref(ageMockData)
+  const deviceData = ref(deviceMockData)
   const averageAge = ref(0)
 
   // 模拟数据变化
@@ -54,6 +69,13 @@ export default function () {
         item.value = item.value + random(100)
       })
       ageData.value = _ageData
+      // device相关数据更新
+      const _deviceData = { ...deviceData.value }
+      _deviceData.totalDevices += random(100)
+      _deviceData.devices.forEach(item => {
+        item.value += random(100)
+      })
+      deviceData.value = _deviceData
     }, 3000)
   })
 
@@ -66,6 +88,7 @@ export default function () {
     growthLastDay,
     growthLastMonth,
     ageData,
-    averageAge
+    averageAge,
+    deviceData
   }
 }
