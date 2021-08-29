@@ -127,6 +127,67 @@ const riderMockData = {
   }
 }
 
+const hotCategoryMockData = {
+  data1: {
+    axisX: [
+      '粉面粥店',
+      '简餐便当',
+      '汉堡披萨',
+      '香锅冒菜',
+      '小吃炸串',
+      '地方菜系',
+      '轻食简餐'
+    ],
+    data1: [
+      89,
+      36,
+      62,
+      90,
+      39,
+      2,
+      11
+    ],
+    data2: [
+      11,
+      64,
+      38,
+      10,
+      61,
+      98,
+      89
+    ]
+  },
+  data2: {
+    axisX: [
+      '草莓',
+      '甘蔗',
+      '榴莲',
+      '菠萝',
+      '香蕉',
+      '梨',
+      '苹果'
+    ],
+    data1: [
+      93,
+      3,
+      79,
+      79,
+      42,
+      47,
+      40
+    ],
+    data2: [
+      7,
+      97,
+      21,
+      21,
+      58,
+      53,
+      60
+    ]
+  }
+}
+
 function random (val) {
   return Math.floor(Math.random() * val)
 }
@@ -144,6 +205,7 @@ export default function () {
   const averageAge = ref(0)
   const genderData = ref(genderMockData)
   const riderData = ref(riderMockData)
+  const hotCategoryData = ref(hotCategoryMockData)
 
   // 模拟数据变化
   let task
@@ -189,6 +251,15 @@ export default function () {
         return item + random(100)
       })
       riderData.value = _riderData
+
+      const _hotCategoryData = { ...hotCategoryData.value }
+      _hotCategoryData.data1.data1 = _hotCategoryData.data1.data1.map(item => {
+        return item + random(100)
+      })
+      _hotCategoryData.data1.data2 = _hotCategoryData.data2.data2.map(item => {
+        return item + random(100)
+      })
+      hotCategoryData.value = _hotCategoryData
     }, 3000)
   })
 
@@ -204,6 +275,7 @@ export default function () {
     averageAge,
     deviceData,
     genderData,
-    riderData
+    riderData,
+    hotCategoryData
   }
 }

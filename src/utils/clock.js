@@ -20,9 +20,11 @@ function timeFilter (v) {
 
 export function clock () {
   let now = new Date()
+  // 实现两个Filter函数转化时间格式
   const date = ref(dateFilter(now))
   const time = ref(timeFilter(now))
   let task
+  // 添加持续更新Time逻辑
   const start = () => {
     task = setInterval(() => {
       now = new Date()
