@@ -45,6 +45,88 @@ const genderMockData = [{
   value: 1442548
 }]
 
+const riderMockData = {
+  // 这个mock数据的X轴是固定的，Y轴数据有两种，一种骑手接单数据，还要新增骑手数据
+  axisX: [
+    '1月',
+    '2月',
+    '3月',
+    '4月',
+    '5月',
+    '6月',
+    '7月',
+    '8月',
+    '9月',
+    '10月',
+    '11月',
+    '12月'
+  ],
+  orderData: {
+    legend1: '去年骑手月人均接单',
+    legend2: '今年骑手月人均接单',
+    data1: [
+      '330',
+      '420',
+      '560',
+      '450',
+      '610',
+      '890',
+      '720',
+      '610',
+      '580',
+      '750',
+      '770',
+      '600'
+    ],
+    data2: [
+      '430',
+      '510',
+      '660',
+      '550',
+      '710',
+      '990',
+      '620',
+      '550',
+      '760',
+      '810',
+      '930',
+      '720'
+    ]
+  },
+  rateData: {
+    legend1: '去年月新增骑手',
+    legend2: '今年月新增骑手',
+    data1: [
+      '129',
+      '223',
+      '202',
+      '197',
+      '300',
+      '112',
+      '333',
+      '249',
+      '178',
+      '322',
+      '401',
+      '167'
+    ],
+    data2: [
+      '179',
+      '263',
+      '282',
+      '297',
+      '330',
+      '344',
+      '222',
+      '299',
+      '190',
+      '455',
+      '566',
+      '233'
+    ]
+  }
+}
+
 function random (val) {
   return Math.floor(Math.random() * val)
 }
@@ -61,6 +143,7 @@ export default function () {
   const deviceData = ref(deviceMockData)
   const averageAge = ref(0)
   const genderData = ref(genderMockData)
+  const riderData = ref(riderMockData)
 
   // 模拟数据变化
   let task
@@ -91,6 +174,21 @@ export default function () {
         item.value += random(100)
       })
       genderData.value = _genderData
+
+      const _riderData = { ...riderData.value }
+      _riderData.orderData.data1 = _riderData.orderData.data1.map(item => {
+        return item + random(100)
+      })
+      _riderData.orderData.data2 = _riderData.orderData.data2.map(item => {
+        return item + random(100)
+      })
+      _riderData.rateData.data1 = _riderData.rateData.data1.map(item => {
+        return item + random(100)
+      })
+      _riderData.rateData.data2 = _riderData.rateData.data2.map(item => {
+        return item + random(100)
+      })
+      riderData.value = _riderData
     }, 3000)
   })
 
@@ -105,6 +203,7 @@ export default function () {
     ageData,
     averageAge,
     deviceData,
-    genderData
+    genderData,
+    riderData
   }
 }

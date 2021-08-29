@@ -35,7 +35,11 @@
               :data="genderData"
             />
           </div>
-          <div class="left5">777</div>
+          <div class="left5">
+            <total-rider
+              :data="riderData"
+            />
+          </div>
           <div class="left6">888</div>
         </div>
         <div class="right">
@@ -71,10 +75,12 @@
   import 'echarts/lib/chart/bar'
   import TotalDevice from '../components/TotalDevice/index'
   import TotalGender from '../components/TotalGender/index'
+  import TotalRider from '../components/TotalRider/index'
 
   export default {
     name: 'Home',
     components: {
+      TotalRider,
       TotalDevice,
       AverageAge,
       TotalUser,
