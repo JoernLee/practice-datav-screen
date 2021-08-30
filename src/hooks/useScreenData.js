@@ -188,6 +188,15 @@ const hotCategoryMockData = {
   }
 }
 
+const headerMockData = {
+  salesToday: 30801679,
+  orderToday: 2045494,
+  orderUser: 21409,
+  covertRate: 11.22,
+  returnRate: 5.59,
+  userToday: 1021990
+}
+
 function random (val) {
   return Math.floor(Math.random() * val)
 }
@@ -206,6 +215,7 @@ export default function () {
   const genderData = ref(genderMockData)
   const riderData = ref(riderMockData)
   const hotCategoryData = ref(hotCategoryMockData)
+  const headerData = ref(headerMockData)
 
   // 模拟数据变化
   let task
@@ -276,6 +286,7 @@ export default function () {
     deviceData,
     genderData,
     riderData,
-    hotCategoryData
+    hotCategoryData,
+    headerData
   }
 }

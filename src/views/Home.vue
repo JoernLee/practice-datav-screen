@@ -47,7 +47,11 @@
           </div>
         </div>
         <div class="right">
-          <div class="right-top1">999</div>
+          <div class="right-top1">
+            <center-header
+              :data="headerData"
+            />
+          </div>
           <div class="right-top2">000</div>
           <div class="right-bottom">
             <div class="right-left">
@@ -81,10 +85,12 @@
   import TotalGender from '../components/TotalGender/index'
   import TotalRider from '../components/TotalRider/index'
   import HotCategory from '../components/HotCategoryData/index'
+  import CenterHeader from '../components/CenterHeader/index'
 
   export default {
     name: 'Home',
     components: {
+      CenterHeader,
       HotCategory,
       TotalRider,
       TotalDevice,
