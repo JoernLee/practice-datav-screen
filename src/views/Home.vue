@@ -52,11 +52,20 @@
               :data="headerData"
             />
           </div>
-          <div class="right-top2">000</div>
+          <div class="right-top2">
+            <transform-category
+              :data="['ALL','北京','上海','深圳','杭州','南京','武汉']"
+            />
+          </div>
           <div class="right-bottom">
             <div class="right-left">
               <div class="right-left1">111</div>
-              <div class="right-left2">222</div>
+              <div class="right-left2">
+                <transform-category
+                  :data="['订单量','销售额','用户数','退单量']"
+                  :color="['rgb(178,209,126)','rgb(116,166,49)']"
+                />
+              </div>
               <div class="right-left3">333</div>
               <div class="right-left3">444</div>
             </div>
@@ -86,10 +95,12 @@
   import TotalRider from '../components/TotalRider/index'
   import HotCategory from '../components/HotCategoryData/index'
   import CenterHeader from '../components/CenterHeader/index'
+  import TransformCategory from '../components/TransformCategory/index'
 
   export default {
     name: 'Home',
     components: {
+      TransformCategory,
       CenterHeader,
       HotCategory,
       TotalRider,
@@ -206,7 +217,9 @@
           }
 
           .right-top2 {
+            width: 100%;
             height: 48px;
+            background: gray;
             margin-bottom: 20px;
           }
 
