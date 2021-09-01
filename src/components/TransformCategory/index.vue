@@ -2,7 +2,12 @@
   <div class="country-category">
     <div
       class="category"
-      v-for="(item, index) in data" :key="item"
+      v-for="(item, index) in data"
+      :key="item"
+      @click="onClick(index)"
+      @mouseenter="onMouseEnter(index)"
+      @mouseleave="onMouseLeave(index)"
+      @mousemove="onMouseEnter(index)"
     >
       <div
         class="selected"
@@ -41,7 +46,17 @@
     },
     setup (props) {
       const selected = ref(0)
+      const hover = ref(-1)
       let task
+      const onClick = (index) => {
+        selected.value = index
+      }
+      const onMouseEnter = (index) => {
+        hover.value = index
+      }
+      const onMouseLeave = (index) => {
+        hover.value = -1
+      }
       const update = () => {
         task && clearInterval(task)
         task = setInterval(() => {
@@ -54,7 +69,11 @@
       onMounted(update)
       onUnmounted(() => task && clearInterval(task))
       return {
-        selected
+        selected,
+        hover,
+        onClick,
+        onMouseEnter,
+        onMouseLeave
       }
     }
   }
