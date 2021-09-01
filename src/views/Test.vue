@@ -1,20 +1,32 @@
 <template>
-  <button @click="increment">{{state.count}}</button>
-  <div>{{doubleCount}}</div>
+  <div>
+    <base-scroll-list
+      :header="header"
+      :header-style="headerStyle"
+      header-height="40"
+    />
+  </div>
 </template>
+
 <script>
-  import { useTest } from './useTest'
+  import { ref } from 'vue'
+  import BaseScrollList from '../components/BaseScrollList'
 
   export default {
-    // vue3新增方法
+    components: { BaseScrollList },
     setup () {
-      const { state, increment, doubleCount } = useTest()
-      // return的结果作为组件的状态和function来使用
+      const header = ref([])
+      const headerStyle = ref([])
+      header.value = ['姓名', '年龄', '月薪']
+      headerStyle.value = [{ color: 'red' }]
       return {
-        state,
-        doubleCount,
-        increment
+        header,
+        headerStyle
       }
     }
   }
 </script>
+
+<style lang="scss" scoped>
+
+</style>
