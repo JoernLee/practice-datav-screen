@@ -1,11 +1,7 @@
 <template>
   <div style="width: 500px;height: 400px">
     <base-scroll-list
-      :header="header"
-      :header-style="headerStyle"
-      header-bg="rgb(80,80,80)"
-      header-height="40"
-      header-index
+      :config="config"
     />
   </div>
 </template>
@@ -17,13 +13,19 @@
   export default {
     components: { BaseScrollList },
     setup () {
-      const header = ref([])
-      const headerStyle = ref([])
-      header.value = ['姓名', '年龄', '月薪']
-      headerStyle.value = [{ color: 'red' }]
+      const config = ref({})
+      const headerData = ['姓名', '年龄', '月薪']
+      const headerStyle = [{ color: 'red' }]
+      config.value = {
+        headerData,
+        headerStyle,
+        headerBg: 'rgb(80,80,80)',
+        headerHeight: 40,
+        headerIndex: true,
+        headerIndexContent: '#'
+      }
       return {
-        header,
-        headerStyle
+        config
       }
     }
   }
