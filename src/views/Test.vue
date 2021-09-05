@@ -1,9 +1,11 @@
 <template>
-  <div>
+  <div style="width: 500px;height: 400px">
     <base-scroll-list
       :header="header"
       :header-style="headerStyle"
+      header-bg="rgb(80,80,80)"
       header-height="40"
+      header-index
     />
   </div>
 </template>
