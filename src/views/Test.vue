@@ -19,9 +19,14 @@
         color: 'red',
         width: '100px'
       }]
+      const data = []
+      for (let i = 0; i < 5; i++) {
+        data.push(['同学' + (i + 1), Math.floor(Math.random() * 10 + 20), Math.floor(Math.random() * 10000 + 10000)])
+      }
       config.value = {
         headerData,
         headerStyle,
+        data,
         headerBg: 'rgb(80,80,80)',
         headerHeight: 40,
         headerIndex: true,

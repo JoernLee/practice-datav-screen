@@ -15,7 +15,22 @@
         v-html="headerItem"
       />
     </div>
-    <div class="base-scroll-list-rows">
+    <div
+      class="base-scroll-list-rows"
+      v-for="(rowData,rowIndex) in rowsData"
+      :key="rowIndex"
+    >
+      <div
+        class="base-scroll-list-columns"
+        v-for="(colData,colIndex) in rowData"
+        :key="colData + colIndex"
+        :style="{
+          width: `${columnWidths[colIndex]}px`
+        }"
+        v-html="colData"
+      >
+
+      </div>
 
     </div>
   </div>
@@ -31,6 +46,26 @@
   // import _ from 'lodash'
   import assign from 'lodash/assign'
 
+  const defaultConfig = {
+    // 标题数据， 格式类似['a','b',...]
+    headerData: [],
+    // 标题item样式, 支持定制每个标题的样式 [{},{},...]
+    headerStyle: [],
+    // 标题背景色
+    headerBg: 'rgb(90,90,90)',
+    // 标题高度
+    headerHeight: 35,
+    // 标题是否展示序号
+    headerIndex: false,
+    headerIndexContent: '#',
+    headerIndexStyle: {
+      // 默认index的宽度 - 对列宽算法也需要更改
+      width: '50px'
+    },
+    // 数据项
+    data: []
+  }
+
   export default {
     name: 'BaseScrollList',
     props: {
@@ -41,23 +76,6 @@
       }
     },
     setup (props) {
-      const defaultConfig = {
-        // 标题数据， 格式类似['a','b',...]
-        headerData: [],
-        // 标题item样式, 支持定制每个标题的样式 [{},{},...]
-        headerStyle: [],
-        // 标题背景色
-        headerBg: 'rgb(90,90,90)',
-        // 标题高度
-        headerHeight: 35,
-        // 标题是否展示序号
-        headerIndex: false,
-        headerIndexContent: '#',
-        headerIndexStyle: {
-          // 默认index的宽度 - 对列宽算法也需要更改
-          width: '50px'
-        }
-      }
       const actualConfig = ref([])
       // 生成唯一id，避免get时获取目标不对
       const id = `base-scroll-list-${uuidv4()}`
@@ -67,12 +85,14 @@
       const headerData = ref([])
       const headerStyle = ref([])
       const columnWidths = ref([])
+      const rowsData = ref([])
 
       const handleHeader = (config) => {
         // 做一个深copy，避免后续对header本身数据的影响污染（因为是一维数组所以直接扩展运算符就可以）
         // 否则可以使用lodash的deepclone函数
         const _headerData = cloneDeep(config.headerData)
         const _headerStyle = cloneDeep(config.headerStyle)
+        const _rowsData = cloneDeep(config.data)
         if (_headerData.length === 0) {
           return
         }
@@ -80,6 +100,10 @@
           // 这里不建议直接对headerData操作，因为这一步会导致每一次值变更进行页面重绘
           _headerData.unshift(config.headerIndexContent)
           _headerStyle.unshift(config.headerIndexStyle)
+          _rowsData.forEach((rows, index) => {
+            // 行数据是二维数组，需要这样处理，把index列补上
+            rows.unshift(index + 1)
+          })
         }
         // 动态计算header每一列宽度， 并且生成一个length等长数组赋值平均宽度
         // 需要计算一个使用过的width，避免用户自定义某个style-width
@@ -96,10 +120,23 @@
         // 需要考虑到剩余宽度和列数
         const avgWidth = (width.value - usedWidth) / (_headerData.length - useColumnNum)
         const _columnWidths = new Array(_headerData.length).fill(avgWidth)
-        columnWidths.value = _columnWidths
+        // 再进行一轮循环，避免used的列被avgWidth覆盖了，header没有出现这个问题是因为merge时被下面覆盖了
+        // 但是计算row的列宽时拿到的columnWidths就全是平均值了，需要还原used那部分！
+        _headerStyle.forEach((style, index) => {
+          if (style.width) {
+            const headerWidth = +style.width.replace('px', '')
+            _columnWidths[index] = headerWidth
+          }
+        })
 
+        columnWidths.value = _columnWidths
         headerData.value = _headerData
         headerStyle.value = _headerStyle
+        console.log(_rowsData)
+        rowsData.value = _rowsData
+      }
+
+      const handleRows = (config) => {
       }
 
       onMounted(() => {
@@ -109,7 +146,10 @@
         // 合并config，避免外部传入config直接覆盖config的default字段的功能
         // 注意前后关系，不然会把default覆盖
         const _actualConfig = assign(defaultConfig, props.config)
+        // 赋值rowsData
+        rowsData.value = _actualConfig.data || []
         handleHeader(_actualConfig)
+        handleRows(_actualConfig)
         // 避免计算之前就进行重新渲染
         actualConfig.value = _actualConfig
       })
@@ -118,7 +158,8 @@
         id,
         headerData,
         headerStyle,
-        columnWidths
+        columnWidths,
+        rowsData
       }
     }
   }
@@ -145,6 +186,15 @@
       .header-item {
       }
     }
+
+    .base-scroll-list-rows {
+      display: flex;
+
+      .base-scroll-list-columns {
+
+      }
+    }
+
   }
 
 </style>
