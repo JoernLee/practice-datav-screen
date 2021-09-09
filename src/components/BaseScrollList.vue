@@ -8,7 +8,10 @@
         class="header-item base-scroll-list-text"
         v-for="(headerItem, i) in headerData"
         :key="headerItem + i"
-        :style="headerStyle[i]"
+        :style="{
+          width: `${columnWidths[i]}px`,
+          ...headerStyle[i]
+        }"
         v-html="headerItem"
       />
     </div>
@@ -50,7 +53,10 @@
         // 标题是否展示序号
         headerIndex: false,
         headerIndexContent: '#',
-        headerIndexStyle: {}
+        headerIndexStyle: {
+          // 默认index的宽度 - 对列宽算法也需要更改
+          width: '50px'
+        }
       }
       const actualConfig = ref([])
       // 生成唯一id，避免get时获取目标不对
@@ -60,6 +66,7 @@
       const { width, height } = useScreen(id)
       const headerData = ref([])
       const headerStyle = ref([])
+      const columnWidths = ref([])
 
       const handleHeader = (config) => {
         // 做一个深copy，避免后续对header本身数据的影响污染（因为是一维数组所以直接扩展运算符就可以）
@@ -74,6 +81,23 @@
           _headerData.unshift(config.headerIndexContent)
           _headerStyle.unshift(config.headerIndexStyle)
         }
+        // 动态计算header每一列宽度， 并且生成一个length等长数组赋值平均宽度
+        // 需要计算一个使用过的width，避免用户自定义某个style-width
+        let usedWidth = 0
+        let useColumnNum = 0
+        // 判断是否自定义width
+        _headerStyle.forEach(style => {
+          if (style.width) {
+            // 把width变为number相加
+            usedWidth += +style.width.replace('px', '')
+            useColumnNum++
+          }
+        })
+        // 需要考虑到剩余宽度和列数
+        const avgWidth = (width.value - usedWidth) / (_headerData.length - useColumnNum)
+        const _columnWidths = new Array(_headerData.length).fill(avgWidth)
+        columnWidths.value = _columnWidths
+
         headerData.value = _headerData
         headerStyle.value = _headerStyle
       }
@@ -93,7 +117,8 @@
       return {
         id,
         headerData,
-        headerStyle
+        headerStyle,
+        columnWidths
       }
     }
   }
