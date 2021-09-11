@@ -28,7 +28,8 @@
         v-for="(colData,colIndex) in rowData"
         :key="colData + colIndex"
         :style="{
-          width: `${columnWidths[colIndex]}px`
+          width: `${columnWidths[colIndex]}px`,
+          ...rowStyle[colIndex]
         }"
         v-html="colData"
       >
@@ -54,6 +55,8 @@
     headerData: [],
     // 标题item样式, 支持定制每个标题的样式 [{},{},...]
     headerStyle: [],
+    // 行样式
+    rowStyle: [],
     // 标题背景色
     headerBg: 'rgb(90,90,90)',
     // 标题高度
@@ -63,6 +66,10 @@
     headerIndexContent: '#',
     headerIndexStyle: {
       // 默认index的宽度 - 对列宽算法也需要更改
+      width: '50px'
+    },
+    // 序号列内容样式
+    rowIndexStyle: {
       width: '50px'
     },
     // 数据项
@@ -88,6 +95,7 @@
       const { width, height } = useScreen(id)
       const headerData = ref([])
       const headerStyle = ref([])
+      const rowStyle = ref([])
       const columnWidths = ref([])
       const rowsData = ref([])
       const rowHeights = ref([])
@@ -99,6 +107,7 @@
         const _headerData = cloneDeep(config.headerData)
         const _headerStyle = cloneDeep(config.headerStyle)
         const _rowsData = cloneDeep(config.data)
+        const _rowStyle = cloneDeep(config.rowStyle)
         if (_headerData.length === 0) {
           return
         }
@@ -106,6 +115,7 @@
           // 这里不建议直接对headerData操作，因为这一步会导致每一次值变更进行页面重绘
           _headerData.unshift(config.headerIndexContent)
           _headerStyle.unshift(config.headerIndexStyle)
+          _rowStyle.unshift(config.rowIndexStyle)
           _rowsData.forEach((rows, index) => {
             // 行数据是二维数组，需要这样处理，把index列补上
             rows.unshift(index + 1)
@@ -138,7 +148,7 @@
         columnWidths.value = _columnWidths
         headerData.value = _headerData
         headerStyle.value = _headerStyle
-        console.log(_rowsData)
+        rowStyle.value = _rowStyle
         rowsData.value = _rowsData
       }
 
@@ -177,7 +187,8 @@
         headerStyle,
         columnWidths,
         rowsData,
-        rowHeights
+        rowHeights,
+        rowStyle
       }
     }
   }
