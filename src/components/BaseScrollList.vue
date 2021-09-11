@@ -20,7 +20,8 @@
       v-for="(rowData,rowIndex) in rowsData"
       :key="rowIndex"
       :style="{
-        height: `${rowHeights[rowIndex]}px`
+        height: `${rowHeights[rowIndex]}px`,
+        backgroundColor: rowIndex % 2 === 0 ? rowBg[1] : rowBg[0]
       }"
     >
       <div
@@ -55,6 +56,8 @@
     headerData: [],
     // 标题item样式, 支持定制每个标题的样式 [{},{},...]
     headerStyle: [],
+    // 行背景色（奇偶）
+    rowBg: [],
     // 行样式
     rowStyle: [],
     // 标题背景色
@@ -96,6 +99,7 @@
       const headerData = ref([])
       const headerStyle = ref([])
       const rowStyle = ref([])
+      const rowBg = ref([])
       const columnWidths = ref([])
       const rowsData = ref([])
       const rowHeights = ref([])
@@ -164,6 +168,11 @@
         }
         const avgHeight = unusedHeight / rowNum.value
         rowHeights.value = new Array(rowNum.value).fill(avgHeight)
+
+        // 获取行背景色
+        if (config.rowBg) {
+          rowBg.value = config.rowBg
+        }
       }
 
       onMounted(() => {
@@ -188,7 +197,8 @@
         columnWidths,
         rowsData,
         rowHeights,
-        rowStyle
+        rowStyle,
+        rowBg
       }
     }
   }

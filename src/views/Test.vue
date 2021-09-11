@@ -21,13 +21,15 @@
       }]
       const rowStyle = [{ color: 'blue' }]
       const data = []
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 10; i++) {
         data.push(['同学' + (i + 1), Math.floor(Math.random() * 10 + 20), Math.floor(Math.random() * 10000 + 10000)])
       }
+      const rowBg = [('rgb(240,240,240)'), ('rgb(255,255,255)')]
       config.value = {
         headerData,
         headerStyle,
         rowStyle,
+        rowBg,
         data,
         headerBg: 'rgb(80,80,80)',
         headerHeight: 40,
