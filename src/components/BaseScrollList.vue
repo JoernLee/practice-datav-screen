@@ -224,6 +224,12 @@
         currentRowsData.value = rows
         console.log(currentRowsData.value)
         currentIndex.value += moveNum
+        // 判断是否到达最后一组数据
+        const isLast = currentIndex.value - totalLength
+        if (isLast >= 0) {
+          // 这里不是直接赋值0是考虑到moveNum有可能不是1，这个时候isLast就是大于0的数字
+          currentIndex.value = isLast
+        }
         // sleep函数的效果
         await new Promise(resolve => setTimeout(resolve, duration))
         // 延迟操作
