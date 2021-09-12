@@ -20,7 +20,7 @@
     </div>
     <div
       class="base-scroll-list-rows"
-      v-for="(rowData,rowIndex) in rowsData"
+      v-for="(rowData,rowIndex) in currentRowsData"
       :key="rowIndex"
       :style="{
         height: `${rowHeights[rowIndex]}px`,
@@ -90,7 +90,11 @@
     headerFontSize: 28,
     rowFontSize: 28,
     headerColor: '#fff',
-    rowColor: '#000'
+    rowColor: '#000',
+    // 移动动画的步长
+    moveNum: 1,
+    // 动画间隔时间
+    duration: 2000
   }
 
   export default {
@@ -118,6 +122,8 @@
       const rowHeights = ref([])
       const rowNum = ref(defaultConfig.rowNum)
       const aligns = ref([])
+      const currentRowsData = ref([])
+      const currentIndex = ref(0) // 动画指针，指向展示动画的元素
 
       const handleHeader = (config) => {
         // 做一个深copy，避免后续对header本身数据的影响污染（因为是一维数组所以直接扩展运算符就可以）
@@ -192,6 +198,31 @@
         }
       }
 
+      const startAnimation = async () => {
+        const config = actualConfig.value
+        const { data, rowNum, moveNum, duration } = config
+        const totalLength = data.length
+        if (totalLength < rowNum) {
+          // 数据实际长度小于row用户要求数量，直接返回，不用处理
+          return
+        }
+        const index = currentIndex.value
+        const _rowsData = cloneDeep(rowsData.value)
+        // 将数据头尾连接 - 通过slice和push完成
+        // [a,b,c,d,e,f,g]
+        //     1
+        // 应该看到的是[b,c,d,e,f,g,a]
+        const rows = _rowsData.slice(index)
+        rows.push(..._rowsData.slice(0, index))
+        currentRowsData.value = rows
+        console.log(currentRowsData.value)
+        currentIndex.value += moveNum
+        // sleep函数的效果
+        await new Promise(resolve => setTimeout(resolve, duration))
+        // 延迟操作
+        await startAnimation()
+      }
+
       onMounted(() => {
         // 这里的onMounted是在后面定义的，所以里面也能拿到useScreen的参数
         // headerIndex通过新增一列来实现
@@ -205,6 +236,8 @@
         handleRows(_actualConfig)
         // 避免计算之前就进行重新渲染
         actualConfig.value = _actualConfig
+        // 展示动画
+        startAnimation()
       })
 
       return {
@@ -213,6 +246,7 @@
         headerStyle,
         columnWidths,
         rowsData,
+        currentRowsData,
         rowHeights,
         rowStyle,
         rowBg,
