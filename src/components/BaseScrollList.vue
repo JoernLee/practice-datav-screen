@@ -26,18 +26,21 @@
     >
       <div
         class="base-scroll-list-rows"
-        v-for="(rowData,rowIndex) in currentRowsData"
-        :key="rowIndex"
+        v-for="(rowData,index) in currentRowsData"
+        :key="rowData.rowIndex"
         :style="{
-        height: `${rowHeights[rowIndex]}px`,
-        backgroundColor: rowIndex % 2 === 0 ? rowBg[1] : rowBg[0],
+        height: `${rowHeights[index]}px`,
+        // 行高也需要控制，避免滑动动画height为0的元素还会display
+        lineHeight: `${rowHeights[index]}px`,
+        // 因为存在滑动动画和row-hidden过程，这个不能再通过rowIndex判断
+        backgroundColor: rowData.rowIndex % 2 === 0 ? rowBg[1] : rowBg[0],
         fontSize: `${actualConfig.rowFontSize}px`,
         color: `${actualConfig.rowColor}`
       }"
       >
         <div
-          class="base-scroll-list-columns"
-          v-for="(colData,colIndex) in rowData"
+          class="base-scroll-list-columns base-scroll-list-text"
+          v-for="(colData,colIndex) in rowData.data"
           :key="colData + colIndex"
           :style="{
           width: `${columnWidths[colIndex]}px`,
@@ -132,6 +135,8 @@
       const currentRowsData = ref([])
       const currentIndex = ref(0) // 动画指针，指向展示动画的元素
 
+      let avgHeight // 平均行高
+
       const handleHeader = (config) => {
         // 做一个深copy，避免后续对header本身数据的影响污染（因为是一维数组所以直接扩展运算符就可以）
         // 否则可以使用lodash的deepclone函数
@@ -182,7 +187,11 @@
         headerData.value = _headerData
         headerStyle.value = _headerStyle
         rowStyle.value = _rowStyle
-        rowsData.value = _rowsData
+        // 把item和index关系绑定，否则动画滚动会影响
+        rowsData.value = _rowsData.map((item, index) => ({
+          data: item,
+          rowIndex: index
+        }))
         aligns.value = _aligns
       }
 
@@ -196,7 +205,7 @@
         if (rowNum.value > rowsData.value.length) {
           rowNum.value = rowsData.value.length
         }
-        const avgHeight = unusedHeight / rowNum.value
+        avgHeight = unusedHeight / rowNum.value
         rowHeights.value = new Array(rowNum.value).fill(avgHeight)
 
         // 获取行背景色
@@ -222,7 +231,16 @@
         const rows = _rowsData.slice(index)
         rows.push(..._rowsData.slice(0, index))
         currentRowsData.value = rows
-        console.log(currentRowsData.value)
+        // 过渡折叠动画一定是在index变更之前
+        // 先将所有高度还原 - 设置totalLength长度而非rowNum是因为不在滚动区域的row也需要有高度，否则出现之后没有高度值了
+        rowHeights.value = new Array(totalLength).fill(avgHeight)
+        // 为了给过渡动画的展示时间
+        const waitTime = 300
+        await new Promise(resolve => setTimeout(resolve, waitTime))
+        // 将moveNum对应行高度设置为0 因为moveNum是一次滚动步长
+        // 通过splice方法来定向改动数组值(删除再补上)
+        rowHeights.value.splice(0, moveNum, ...new Array(moveNum).fill(0))
+
         currentIndex.value += moveNum
         // 判断是否到达最后一组数据
         const isLast = currentIndex.value - totalLength
@@ -231,7 +249,7 @@
           currentIndex.value = isLast
         }
         // sleep函数的效果
-        await new Promise(resolve => setTimeout(resolve, duration))
+        await new Promise(resolve => setTimeout(resolve, duration - waitTime))
         // 延迟操作
         await startAnimation()
       }
@@ -278,6 +296,7 @@
 
     .base-scroll-list-text {
       /*  为文本加一些默认样式，例如文字太长省略...*/
+      padding: 0 10px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -299,6 +318,8 @@
       .base-scroll-list-rows {
         display: flex;
         align-items: center;
+        /*用于滑动动画，改动height时候会看到效果*/
+        transition: all 0.3s linear;
 
         .base-scroll-list-columns {
           font-size: 28px;
