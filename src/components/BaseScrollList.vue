@@ -19,30 +19,37 @@
       />
     </div>
     <div
-      class="base-scroll-list-rows"
-      v-for="(rowData,rowIndex) in currentRowsData"
-      :key="rowIndex"
+      class="base-scroll-list-rows-wrapper"
       :style="{
+        height:`${height - actualConfig.headerHeight}px`
+      }"
+    >
+      <div
+        class="base-scroll-list-rows"
+        v-for="(rowData,rowIndex) in currentRowsData"
+        :key="rowIndex"
+        :style="{
         height: `${rowHeights[rowIndex]}px`,
         backgroundColor: rowIndex % 2 === 0 ? rowBg[1] : rowBg[0],
         fontSize: `${actualConfig.rowFontSize}px`,
         color: `${actualConfig.rowColor}`
       }"
-    >
-      <div
-        class="base-scroll-list-columns"
-        v-for="(colData,colIndex) in rowData"
-        :key="colData + colIndex"
-        :style="{
+      >
+        <div
+          class="base-scroll-list-columns"
+          v-for="(colData,colIndex) in rowData"
+          :key="colData + colIndex"
+          :style="{
           width: `${columnWidths[colIndex]}px`,
           ...rowStyle[colIndex]
         }"
-        v-html="colData"
-        :align="aligns[colIndex]"
-      >
+          v-html="colData"
+          :align="aligns[colIndex]"
+        >
+
+        </div>
 
       </div>
-
     </div>
   </div>
 </template>
@@ -251,7 +258,8 @@
         rowStyle,
         rowBg,
         aligns,
-        actualConfig
+        actualConfig,
+        height
       }
     }
   }
@@ -279,13 +287,17 @@
       }
     }
 
-    .base-scroll-list-rows {
-      display: flex;
-      align-items: center;
+    .base-scroll-list-rows-wrapper {
+      overflow: hidden;
 
-      .base-scroll-list-columns {
-        font-size: 28px;
+      .base-scroll-list-rows {
+        display: flex;
+        align-items: center;
 
+        .base-scroll-list-columns {
+          font-size: 28px;
+
+        }
       }
     }
 
