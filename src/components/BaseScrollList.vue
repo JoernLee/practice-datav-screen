@@ -1,8 +1,10 @@
 <template>
   <div class="base-scroll-list" :id="id">
     <div class="base-scroll-list-header" :style="{
-      backgroundColor: config.headerBg,
-      height: `${config.headerHeight}px`
+      backgroundColor: actualConfig.headerBg,
+      height: `${actualConfig.headerHeight}px`,
+      fontSize: `${actualConfig.headerFontSize}px`,
+      color: `${actualConfig.headerColor}`
     }">
       <div
         class="header-item base-scroll-list-text"
@@ -13,6 +15,7 @@
           ...headerStyle[i]
         }"
         v-html="headerItem"
+        :align="aligns[i]"
       />
     </div>
     <div
@@ -21,7 +24,9 @@
       :key="rowIndex"
       :style="{
         height: `${rowHeights[rowIndex]}px`,
-        backgroundColor: rowIndex % 2 === 0 ? rowBg[1] : rowBg[0]
+        backgroundColor: rowIndex % 2 === 0 ? rowBg[1] : rowBg[0],
+        fontSize: `${actualConfig.rowFontSize}px`,
+        color: `${actualConfig.rowColor}`
       }"
     >
       <div
@@ -33,6 +38,7 @@
           ...rowStyle[colIndex]
         }"
         v-html="colData"
+        :align="aligns[colIndex]"
       >
 
       </div>
@@ -77,7 +83,14 @@
     },
     // 数据项
     data: [],
-    rowNum: 10
+    // 每页显示数据量
+    rowNum: 10,
+    // 居中方式
+    aligns: [],
+    headerFontSize: 28,
+    rowFontSize: 28,
+    headerColor: '#fff',
+    rowColor: '#000'
   }
 
   export default {
@@ -104,6 +117,7 @@
       const rowsData = ref([])
       const rowHeights = ref([])
       const rowNum = ref(defaultConfig.rowNum)
+      const aligns = ref([])
 
       const handleHeader = (config) => {
         // 做一个深copy，避免后续对header本身数据的影响污染（因为是一维数组所以直接扩展运算符就可以）
@@ -112,6 +126,7 @@
         const _headerStyle = cloneDeep(config.headerStyle)
         const _rowsData = cloneDeep(config.data)
         const _rowStyle = cloneDeep(config.rowStyle)
+        const _aligns = cloneDeep(config.aligns)
         if (_headerData.length === 0) {
           return
         }
@@ -124,6 +139,7 @@
             // 行数据是二维数组，需要这样处理，把index列补上
             rows.unshift(index + 1)
           })
+          _aligns.unshift('center')
         }
         // 动态计算header每一列宽度， 并且生成一个length等长数组赋值平均宽度
         // 需要计算一个使用过的width，避免用户自定义某个style-width
@@ -154,6 +170,7 @@
         headerStyle.value = _headerStyle
         rowStyle.value = _rowStyle
         rowsData.value = _rowsData
+        aligns.value = _aligns
       }
 
       const handleRows = (config) => {
@@ -198,7 +215,9 @@
         rowsData,
         rowHeights,
         rowStyle,
-        rowBg
+        rowBg,
+        aligns,
+        actualConfig
       }
     }
   }
