@@ -58,7 +58,7 @@
 </template>
 
 <script>
-  import { onMounted, ref } from 'vue'
+  import { ref, watch } from 'vue'
   import { v4 as uuidv4 } from 'uuid'
   import useScreen from '../hooks/useScreen'
   // 按需加载，避免把整个lodash引入
@@ -134,6 +134,7 @@
       const aligns = ref([])
       const currentRowsData = ref([])
       const currentIndex = ref(0) // 动画指针，指向展示动画的元素
+      const isAnimationStart = ref(true)
 
       let avgHeight // 平均行高
 
@@ -226,6 +227,9 @@
       }
 
       const startAnimation = async () => {
+        if (!isAnimationStart.value) {
+          return
+        }
         const config = actualConfig.value
         // 不能再基于data，因为解决bug时最后有可能翻倍，以rowsData为准
         // const { data, rowNum, moveNum, duration } = config
@@ -249,6 +253,9 @@
         rowHeights.value = new Array(totalLength).fill(avgHeight)
         // 为了给过渡动画的展示时间
         const waitTime = 300
+        if (!isAnimationStart.value) {
+          return
+        }
         await new Promise(resolve => setTimeout(resolve, waitTime))
         // 将moveNum对应行高度设置为0 因为moveNum是一次滚动步长
         // 通过splice方法来定向改动数组值(删除再补上)
@@ -261,13 +268,22 @@
           // 这里不是直接赋值0是考虑到moveNum有可能不是1，这个时候isLast就是大于0的数字
           currentIndex.value = isLast
         }
+        if (!isAnimationStart.value) {
+          return
+        }
         // sleep函数的效果
         await new Promise(resolve => setTimeout(resolve, duration - waitTime))
         // 延迟操作
         await startAnimation()
       }
 
-      onMounted(() => {
+      const stopAnimation = () => {
+        isAnimationStart.value = false
+      }
+
+      // 为了避免mounted时拿不到父组件更新的config，需要watch监听config变化多次update
+      const update = () => {
+        stopAnimation()
         // 这里的onMounted是在后面定义的，所以里面也能拿到useScreen的参数
         // headerIndex通过新增一列来实现
         console.log(width, height, props.header, props.headerIndex)
@@ -281,7 +297,13 @@
         // 避免计算之前就进行重新渲染
         actualConfig.value = _actualConfig
         // 展示动画
+        isAnimationStart.value = true
         startAnimation()
+      }
+
+      watch(() => props.config, () => {
+        console.log(props.config)
+        update()
       })
 
       return {

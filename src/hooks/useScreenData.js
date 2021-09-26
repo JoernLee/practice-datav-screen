@@ -197,6 +197,170 @@ const headerMockData = {
   userToday: 1021990
 }
 
+const salesListMockData = [
+  {
+    order: '北京 +11%',
+    shop: '北京 +3%',
+    rider: '北京 +17%',
+    newShop: '北京 -1%',
+    avgOrder: '北京 +2%'
+  },
+  {
+    order: '上海 -12%',
+    shop: '上海 -7%',
+    rider: '上海 +9%',
+    newShop: '上海 +9%',
+    avgOrder: '上海 +19%'
+  },
+  {
+    order: '广州 -4%',
+    shop: '广州 +20%',
+    rider: '广州 +18%',
+    newShop: '广州 -19%',
+    avgOrder: '广州 +21%'
+  },
+  {
+    order: '深圳 -2%',
+    shop: '深圳 +3%',
+    rider: '深圳 -21%',
+    newShop: '深圳 -13%',
+    avgOrder: '深圳 -9%'
+  },
+  {
+    order: '南京 -9%',
+    shop: '南京 -8%',
+    rider: '南京 +10%',
+    newShop: '南京 +15%',
+    avgOrder: '南京 -13%'
+  },
+  {
+    order: '杭州 -17%',
+    shop: '杭州 +12%',
+    rider: '杭州 +13%',
+    newShop: '杭州 -23%',
+    avgOrder: '杭州 -15%'
+  },
+  {
+    order: '合肥 -9%',
+    shop: '合肥 +10%',
+    rider: '合肥 -16%',
+    newShop: '合肥 +3%',
+    avgOrder: '合肥 -15%'
+  },
+  {
+    order: '济南 -6%',
+    shop: '济南 -11%',
+    rider: '济南 +9%',
+    newShop: '济南 -19%',
+    avgOrder: '济南 -6%'
+  },
+  {
+    order: '太原 +4%',
+    shop: '太原 +10%',
+    rider: '太原 +2%',
+    newShop: '太原 -3%',
+    avgOrder: '太原 +9%'
+  },
+  {
+    order: '成都 -11%',
+    shop: '成都 -12%',
+    rider: '成都 -10%',
+    newShop: '成都 +16%',
+    avgOrder: '成都 -14%'
+  },
+  {
+    order: '重庆 +20%',
+    shop: '重庆 -5%',
+    rider: '重庆 +14%',
+    newShop: '重庆 +3%',
+    avgOrder: '重庆 +17%'
+  },
+  {
+    order: '苏州 +15%',
+    shop: '苏州 -14%',
+    rider: '苏州 -22%',
+    newShop: '苏州 -2%',
+    avgOrder: '苏州 -23%'
+  },
+  {
+    order: '无锡 +13%',
+    shop: '无锡 -18%',
+    rider: '无锡 -23%',
+    newShop: '无锡 -16%',
+    avgOrder: '无锡 -21%'
+  },
+  {
+    order: '常州 -18%',
+    shop: '常州 -15%',
+    rider: '常州 -18%',
+    newShop: '常州 +6%',
+    avgOrder: '常州 -4%'
+  },
+  {
+    order: '温州 -17%',
+    shop: '温州 -15%',
+    rider: '温州 -18%',
+    newShop: '温州 -8%',
+    avgOrder: '温州 +17%'
+  },
+  {
+    order: '哈尔滨 -4%',
+    shop: '哈尔滨 +20%',
+    rider: '哈尔滨 +15%',
+    newShop: '哈尔滨 -3%',
+    avgOrder: '哈尔滨 -16%'
+  },
+  {
+    order: '长春 -16%',
+    shop: '长春 -8%',
+    rider: '长春 +16%',
+    newShop: '长春 +20%',
+    avgOrder: '长春 +11%'
+  },
+  {
+    order: '大连 +19%',
+    shop: '大连 -21%',
+    rider: '大连 -16%',
+    newShop: '大连 -7%',
+    avgOrder: '大连 +4%'
+  },
+  {
+    order: '沈阳 +4%',
+    shop: '沈阳 +19%',
+    rider: '沈阳 -20%',
+    newShop: '沈阳 -14%',
+    avgOrder: '沈阳 -14%'
+  },
+  {
+    order: '拉萨 +21%',
+    shop: '拉萨 +9%',
+    rider: '拉萨 +15%',
+    newShop: '拉萨 +9%',
+    avgOrder: '拉萨 -12%'
+  },
+  {
+    order: '呼和浩特 -5%',
+    shop: '呼和浩特 -3%',
+    rider: '呼和浩特 -14%',
+    newShop: '呼和浩特 +16%',
+    avgOrder: '呼和浩特 -6%'
+  },
+  {
+    order: '武汉 +16%',
+    shop: '武汉 +17%',
+    rider: '武汉 +9%',
+    newShop: '武汉 +1%',
+    avgOrder: '武汉 +19%'
+  },
+  {
+    order: '南宁 -11%',
+    shop: '南宁 +21%',
+    rider: '南宁 +22%',
+    newShop: '南宁 +21%',
+    avgOrder: '南宁 -11%'
+  }
+]
+
 function random (val) {
   return Math.floor(Math.random() * val)
 }
@@ -216,6 +380,7 @@ export default function () {
   const riderData = ref(riderMockData)
   const hotCategoryData = ref(hotCategoryMockData)
   const headerData = ref(headerMockData)
+  const salesListData = ref(salesListMockData)
 
   // 模拟数据变化
   let task
@@ -287,6 +452,7 @@ export default function () {
     genderData,
     riderData,
     hotCategoryData,
-    headerData
+    headerData,
+    salesListData
   }
 }

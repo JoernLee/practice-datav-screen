@@ -70,7 +70,9 @@
               <div class="right-left3">444</div>
             </div>
             <div class="right-right">
-              <div class="right-right1">555</div>
+              <div class="right-right1">
+                <sales-list :data="salesListData"/>
+              </div>
               <div class="right-right2">666</div>
             </div>
           </div>
@@ -96,10 +98,12 @@
   import HotCategory from '../components/HotCategoryData/index'
   import CenterHeader from '../components/CenterHeader/index'
   import TransformCategory from '../components/TransformCategory/index'
+  import SalesList from '../components/SalesList/index'
 
   export default {
     name: 'Home',
     components: {
+      SalesList,
       TransformCategory,
       CenterHeader,
       HotCategory,
@@ -271,6 +275,7 @@
               display: flex;
               flex-direction: column;
               margin-left: 10px;
+              margin-right: 20px;
 
               .right-right1 {
                 width: 100%;
