@@ -187,11 +187,22 @@
         headerData.value = _headerData
         headerStyle.value = _headerStyle
         rowStyle.value = _rowStyle
+        // 如果实际数据两倍还大于rowNum
+        const { rowNum } = config
+        if (_rowsData.length >= rowNum && _rowsData.length < rowNum * 2) {
+          // 直接复制一份rowData到最后的结果
+          const newRowData = [..._rowsData, ..._rowsData]
+          rowsData.value = newRowData.map((item, index) => ({
+            data: item,
+            rowIndex: index
+          }))
+        } else {
+          rowsData.value = _rowsData.map((item, index) => ({
+            data: item,
+            rowIndex: index
+          }))
+        }
         // 把item和index关系绑定，否则动画滚动会影响
-        rowsData.value = _rowsData.map((item, index) => ({
-          data: item,
-          rowIndex: index
-        }))
         aligns.value = _aligns
       }
 
@@ -216,8 +227,10 @@
 
       const startAnimation = async () => {
         const config = actualConfig.value
-        const { data, rowNum, moveNum, duration } = config
-        const totalLength = data.length
+        // 不能再基于data，因为解决bug时最后有可能翻倍，以rowsData为准
+        // const { data, rowNum, moveNum, duration } = config
+        const { rowNum, moveNum, duration } = config
+        const totalLength = rowsData.value.length
         if (totalLength < rowNum) {
           // 数据实际长度小于row用户要求数量，直接返回，不用处理
           return

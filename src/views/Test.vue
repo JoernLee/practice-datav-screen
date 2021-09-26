@@ -40,7 +40,7 @@
         headerHeight: 40,
         headerIndex: true,
         headerIndexContent: '#',
-        rowNum: 5,
+        rowNum: 10,
         aligns,
         headerFontSize,
         rowFontSize,
