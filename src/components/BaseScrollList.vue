@@ -58,7 +58,7 @@
 </template>
 
 <script>
-  import { ref, watch } from 'vue'
+  import { ref, watch, onMounted } from 'vue'
   import { v4 as uuidv4 } from 'uuid'
   import useScreen from '../hooks/useScreen'
   // 按需加载，避免把整个lodash引入
@@ -87,6 +87,8 @@
       // 默认index的宽度 - 对列宽算法也需要更改
       width: '50px'
     },
+    // 序号列的树内容
+    headerIndexData: [],
     // 序号列内容样式
     rowIndexStyle: {
       width: '50px'
@@ -155,8 +157,13 @@
           _headerStyle.unshift(config.headerIndexStyle)
           _rowStyle.unshift(config.rowIndexStyle)
           _rowsData.forEach((rows, index) => {
-            // 行数据是二维数组，需要这样处理，把index列补上
-            rows.unshift(index + 1)
+            if (config.headerIndexData && config.headerIndexData.length > 0 && config.headerIndexData[index]) {
+              // 支持配置序号列数据内容，否则补充index序号
+              rows.unshift(config.headerIndexData[index])
+            } else {
+              // 行数据是二维数组，需要这样处理，把index列补上
+              rows.unshift(index + 1)
+            }
           })
           _aligns.unshift('center')
         }
@@ -302,7 +309,10 @@
       }
 
       watch(() => props.config, () => {
-        console.log(props.config)
+        update()
+      })
+
+      onMounted(() => {
         update()
       })
 
