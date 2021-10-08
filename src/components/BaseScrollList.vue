@@ -367,8 +367,7 @@
         transition: all 0.3s linear;
 
         .base-scroll-list-columns {
-          font-size: 28px;
-
+          height: 100%;
         }
       }
     }
