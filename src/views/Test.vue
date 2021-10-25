@@ -1,54 +1,68 @@
 <template>
-  <div style="width: 500px;height: 400px">
-    <base-scroll-list
-      :config="config"
-    />
+  <div style="width: 100%;height: 100%">
+    <vue-echarts :options="options"/>
   </div>
 </template>
 
 <script>
-  import { ref } from 'vue'
-  import BaseScrollList from '../components/BaseScrollList'
+  import { ref, onMounted } from 'vue'
+  import VueEcharts from '../components/VueEcharts/VueEcharts'
 
   export default {
-    components: { BaseScrollList },
+    components: { VueEcharts },
     setup () {
-      const config = ref({})
-      const headerData = ['姓名', '年龄', '月薪']
-      const headerStyle = [{
-        color: 'red'
-      }]
-      const headerFontSize = 24
-      const headerColor = '#fff'
-      const rowFontSize = 20
-      const rowColor = '#000'
-      const rowStyle = [{ color: 'blue' }]
-      const data = []
-      for (let i = 0; i < 10; i++) {
-        data.push(['同学' + (i + 1), Math.floor(Math.random() * 10 + 20), Math.floor(Math.random() * 10000 + 10000)])
-      }
-      const rowBg = [('rgb(240,240,240)'), ('rgb(255,255,255)')]
-      const aligns = ['center', 'center', 'center']
+      const options = ref({})
 
-      config.value = {
-        headerData,
-        headerStyle,
-        rowStyle,
-        rowBg,
-        data,
-        headerBg: 'rgb(80,80,80)',
-        headerHeight: 40,
-        headerIndex: true,
-        headerIndexContent: '#',
-        rowNum: 10,
-        aligns,
-        headerFontSize,
-        rowFontSize,
-        headerColor,
-        rowColor
+      const update = () => {
+        options.value = {
+          // baseOption在timeline中和options来结合，确定取的数据index
+          // options给变化组件用，base给timeline用
+          baseOption: {
+            timeline: {
+              axisType: 'category',
+              controlStyle: {
+                position: 'left'
+              },
+              // 打开自动播放
+              autoPlay: true,
+              playInterval: 1000,
+              loop: true, // 循环播放
+              inverse: false, // 是否反向放置timeline
+              rewind: false, // 是否反向播放
+              currentIndex: 1, // 初始播放节点
+              realtime: true, // 拖动圆点是否实时渲染视图
+              data: [
+                {
+                  value: '2002-01-01',
+                  // 切换节点图表
+                  symbol: 'diamond',
+                  symbolSize: 18
+                },
+                '2003-01-01',
+                '2004-01-01',
+                '2005-01-01',
+                '2006-01-01',
+                {
+                  value: '2007-01-01',
+                  symbol: 'triangle',
+                  symbolSize: 18
+                }
+              ],
+              label: {
+                formatter (v) {
+                  return new Date(v).getFullYear()
+                }
+              }
+            }
+          },
+          options: []
+        }
       }
+
+      onMounted(update)
+
       return {
-        config
+        options
       }
     }
   }
