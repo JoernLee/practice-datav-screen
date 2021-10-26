@@ -59,7 +59,9 @@
           </div>
           <div class="right-bottom">
             <div class="right-left">
-              <div class="right-left1">111</div>
+              <div class="right-left1">
+                <gdp-timeline-chart/>
+              </div>
               <div class="right-left2">
                 <transform-category
                   :data="['订单量','销售额','用户数','退单量']"
@@ -99,10 +101,12 @@
   import CenterHeader from '../components/CenterHeader/index'
   import TransformCategory from '../components/TransformCategory/index'
   import SalesList from '../components/SalesList/index'
+  import GdpTimelineChart from '../components/GdpTimelineChart/index'
 
   export default {
     name: 'Home',
     components: {
+      GdpTimelineChart,
       SalesList,
       TransformCategory,
       CenterHeader,
