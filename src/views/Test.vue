@@ -1,13 +1,13 @@
 <template>
-  <GdpTimelineChart/>
+  <jiangsu-map-warning/>
 </template>
 
 <script>
-  import GdpTimelineChart from '../components/GdpTimelineChart/index'
+  import JiangsuMapWarning from '../components/JiangsuMapWarning/index'
 
   export default {
     components: {
-      GdpTimelineChart
+      JiangsuMapWarning
     }
   }
 </script>
