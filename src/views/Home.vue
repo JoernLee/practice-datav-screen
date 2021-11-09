@@ -60,7 +60,8 @@
           <div class="right-bottom">
             <div class="right-left">
               <div class="right-left1">
-                <gdp-timeline-chart/>
+                <!--                <gdp-timeline-chart/>-->
+                <jiangsu-map-warning/>
               </div>
               <div class="right-left2">
                 <transform-category
@@ -101,12 +102,12 @@
   import CenterHeader from '../components/CenterHeader/index'
   import TransformCategory from '../components/TransformCategory/index'
   import SalesList from '../components/SalesList/index'
-  import GdpTimelineChart from '../components/GdpTimelineChart/index'
+  import JiangsuMapWarning from '../components/JiangsuMapWarning/index'
 
   export default {
     name: 'Home',
     components: {
-      GdpTimelineChart,
+      JiangsuMapWarning,
       SalesList,
       TransformCategory,
       CenterHeader,
