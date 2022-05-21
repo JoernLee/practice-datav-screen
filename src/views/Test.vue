@@ -1,15 +1,15 @@
 <template>
-  <jiangsu-map-warning/>
+  <rotating-earth/>
 </template>
 
 <script>
-  import JiangsuMapWarning from '../components/JiangsuMapWarning/index'
+import RotatingEarth from '../components/RotatingEarth'
 
-  export default {
-    components: {
-      JiangsuMapWarning
-    }
+export default {
+  components: {
+    RotatingEarth
   }
+}
 </script>
 
 <style lang="scss" scoped>

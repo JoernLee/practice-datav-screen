@@ -243,7 +243,6 @@
 
               .right-left1 {
                 height: 999px;
-                background: #42b983;
               }
 
               .right-left2 {

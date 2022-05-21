@@ -21,7 +21,6 @@
         fetch('http://www.youbaobao.xyz/datav-res/datav/jiangsuMapData.json')
           .then(response => response.json())
           .then(data => {
-            console.log(data)
             const center = []
             data.features.forEach(item => {
               if (item.properties) {
@@ -31,7 +30,6 @@
                 })
               }
             })
-            console.log('城市中心点坐标', center)
             // 注册地图 - options中才可以引用
             ECharts.registerMap('jiangsu', data)
             options.value = {
@@ -97,6 +95,7 @@
                 })
               }, {
                 type: 'effectScatter',
+                // data是动态填充的
                 data: [],
                 // 指定geo地理坐标系
                 coordinateSystem: 'geo',
