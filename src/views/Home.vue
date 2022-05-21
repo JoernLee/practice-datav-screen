@@ -61,7 +61,8 @@
             <div class="right-left">
               <div class="right-left1">
                 <!--                <gdp-timeline-chart/>-->
-                <jiangsu-map-warning/>
+                <!--                <jiangsu-map-warning/>-->
+                <fight-earth/>
               </div>
               <div class="right-left2">
                 <transform-category
@@ -87,40 +88,40 @@
 </template>
 
 <script>
-  import { ref, onMounted } from 'vue'
-  import useScreenData from '../hooks/useScreenData'
-  import ImoocLoading from '../components/ImoocLoading'
-  import ImoocContainer from '../components/Container'
-  import TopHeader from '../components/TopHeader/index'
-  import TotalUser from '../components/TotalUser/index'
-  import AverageAge from '../components/AverageAge/index'
-  import 'echarts/lib/chart/bar'
-  import TotalDevice from '../components/TotalDevice/index'
-  import TotalGender from '../components/TotalGender/index'
-  import TotalRider from '../components/TotalRider/index'
-  import HotCategory from '../components/HotCategoryData/index'
-  import CenterHeader from '../components/CenterHeader/index'
-  import TransformCategory from '../components/TransformCategory/index'
-  import SalesList from '../components/SalesList/index'
-  import JiangsuMapWarning from '../components/JiangsuMapWarning/index'
+import { onMounted, ref } from 'vue'
+import useScreenData from '../hooks/useScreenData'
+import ImoocLoading from '../components/ImoocLoading'
+import ImoocContainer from '../components/Container'
+import TopHeader from '../components/TopHeader/index'
+import TotalUser from '../components/TotalUser/index'
+import AverageAge from '../components/AverageAge/index'
+import 'echarts/lib/chart/bar'
+import TotalDevice from '../components/TotalDevice/index'
+import TotalGender from '../components/TotalGender/index'
+import TotalRider from '../components/TotalRider/index'
+import HotCategory from '../components/HotCategoryData/index'
+import CenterHeader from '../components/CenterHeader/index'
+import TransformCategory from '../components/TransformCategory/index'
+import SalesList from '../components/SalesList/index'
+import FightEarth from '../components/FightEarth/index'
 
-  export default {
-    name: 'Home',
-    components: {
-      JiangsuMapWarning,
-      SalesList,
-      TransformCategory,
-      CenterHeader,
-      HotCategory,
-      TotalRider,
-      TotalDevice,
-      AverageAge,
-      TotalUser,
-      TopHeader,
-      ImoocContainer,
-      ImoocLoading,
-      TotalGender
-    },
+export default {
+  name: 'Home',
+  components: {
+    SalesList,
+    TransformCategory,
+    CenterHeader,
+    HotCategory,
+    TotalRider,
+    TotalDevice,
+    AverageAge,
+    TotalUser,
+    TopHeader,
+    ImoocContainer,
+    ImoocLoading,
+    TotalGender,
+    FightEarth
+  },
     setup () {
       const loading = ref(true)
 

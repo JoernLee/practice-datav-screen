@@ -1,13 +1,13 @@
 <template>
-  <rotating-earth/>
+  <fight-earth/>
 </template>
 
 <script>
-import RotatingEarth from '../components/RotatingEarth'
+import FightEarth from '../components/FightEarth'
 
 export default {
   components: {
-    RotatingEarth
+    FightEarth
   }
 }
 </script>
