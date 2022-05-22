@@ -1,13 +1,13 @@
 <template>
-  <fight-earth/>
+  <order-map/>
 </template>
 
 <script>
-import FightEarth from '../components/FightEarth'
+import OrderMap from '../components/OrderMap'
 
 export default {
   components: {
-    FightEarth
+    OrderMap
   }
 }
 </script>
