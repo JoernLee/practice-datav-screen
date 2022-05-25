@@ -259,6 +259,7 @@ export default {
             '海南': 0,
             '上海': 0
           }
+          // 不同的主题，类似换肤效果
           const colors = [
             ['#1DE9B6', '#1DE9B6', '#FFDB5C', '#FFDB5C', '#04B9FF', '#04B9FF'],
             ['#1DE9B6', '#F46E36', '#04B9FF', '#5DBD32', '#FFC809', '#FB95D5', '#BDA29A', '#6E7074', '#546570', '#C4CCD3'],
@@ -327,6 +328,37 @@ export default {
               barData[i].push(mapData[i][j].value1)
               categoryData[i].push(mapData[i][j].name)
             }
+          }
+          const convertData = function (data) {
+            const res = []
+            for (let i = 0; i < data.length; i++) {
+              const geoCoord = geoCoordMap[data[i].name]
+              if (geoCoord) {
+                res.push({
+                  name: data[i].name,
+                  value: geoCoord.concat(data[i].value)
+                })
+              }
+            }
+            return res
+          }
+          const convertToLineData = function (data, gps) {
+            // 第一个是起点位置，终点位置在第二里面
+            const res = []
+            for (let i = 0; i < data.length; i++) {
+              const dataItem = data[i]
+              const toCoord = geoCoordMap[dataItem.name]
+              const fromCoord = gps
+              if (fromCoord && toCoord) {
+                res.push([{
+                  coord: fromCoord,
+                  value: dataItem.value
+                }, {
+                  coord: toCoord
+                }])
+              }
+            }
+            return res
           }
           /* eslint-enable */
           console.log(mapData, barData)
@@ -438,6 +470,12 @@ export default {
                     areaColor: '#389BB7',
                     borderWidth: 0
                   }
+                },
+                label: {
+                  // 隐藏鼠标hover时候展示的name
+                  emphasis: {
+                    show: false
+                  }
                 }
               }
             },
@@ -508,6 +546,59 @@ export default {
                 }
               },
               series: [{
+                type: 'effectScatter',
+                coordinateSystem: 'geo',
+                data: convertData(mapData[i]),
+                symbolSize: function (val) {
+                  // 动态配置点大小
+                  return val[2] / 10
+                },
+                rippleEffect: {
+                  // 定义涟漪效果
+                  brushType: 'stroke'
+                },
+                hoverAnimation: true,
+                label: {
+                  normal: {
+                    show: true,
+                    position: 'right',
+                    formatter: function (params) {
+                      return params?.data?.name
+                    }
+                  }
+                },
+                itemStyle: {
+                  // 颜色同步
+                  normal: {
+                    color: colors[colorIndex][i],
+                    shadowColor: colors[colorIndex][i],
+                    shadowBlur: 10
+                  }
+                },
+                zlevel: 1
+              }, {
+                type: 'lines',
+                data: convertToLineData(mapData[i], geoGpsMap[i + 1]),
+                effect: {
+                  // 配置线的特效
+                  show: true,
+                  period: 4,
+                  symbol: 'arrow',
+                  symbolSize: 3,
+                  trailLength: 0.02
+                },
+                lineStyle: {
+                  normal: {
+                    color: colors[colorIndex][i],
+                    width: 0.1,
+                    opacity: 0.5,
+                    // 弯曲度
+                    curveness: 0.3
+                  }
+                },
+                // 类似zindex，配置图层层级，这样效果好一些，避免同一个图层和scatter一起渲染
+                zlevel: 2
+              }, {
                 type: 'bar',
                 data: barData[i],
                 itemStyle: {

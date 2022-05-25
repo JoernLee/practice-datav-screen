@@ -62,7 +62,7 @@
               <div class="right-left1">
                 <!--                <gdp-timeline-chart/>-->
                 <!--                <jiangsu-map-warning/>-->
-                <fight-earth/>
+                <order-map/>
               </div>
               <div class="right-left2">
                 <transform-category
@@ -103,7 +103,7 @@ import HotCategory from '../components/HotCategoryData/index'
 import CenterHeader from '../components/CenterHeader/index'
 import TransformCategory from '../components/TransformCategory/index'
 import SalesList from '../components/SalesList/index'
-import FightEarth from '../components/FightEarth/index'
+import OrderMap from '../components/OrderMap/index'
 
 export default {
   name: 'Home',
@@ -120,7 +120,7 @@ export default {
     ImoocContainer,
     ImoocLoading,
     TotalGender,
-    FightEarth
+    OrderMap
   },
     setup () {
       const loading = ref(true)
