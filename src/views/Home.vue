@@ -70,8 +70,12 @@
                   :color="['rgb(178,209,126)','rgb(116,166,49)']"
                 />
               </div>
-              <div class="right-left3">333</div>
-              <div class="right-left3">444</div>
+              <div class="right-left3">
+                <real-time-order :data="realTimeOrderData"/>
+              </div>
+              <div class="right-left4">
+                <schedule-view :data="scheduleViewData"/>
+              </div>
             </div>
             <div class="right-right">
               <div class="right-right1">
@@ -104,6 +108,8 @@ import CenterHeader from '../components/CenterHeader/index'
 import TransformCategory from '../components/TransformCategory/index'
 import SalesList from '../components/SalesList/index'
 import OrderMap from '../components/OrderMap/index'
+import RealTimeOrder from '../components/RealTimeOrder/index'
+import ScheduleView from '../components/ScheduleView/index'
 
 export default {
   name: 'Home',
@@ -120,7 +126,9 @@ export default {
     ImoocContainer,
     ImoocLoading,
     TotalGender,
-    OrderMap
+    OrderMap,
+    RealTimeOrder,
+    ScheduleView
   },
     setup () {
       const loading = ref(true)
@@ -256,7 +264,6 @@ export default {
               .right-left3 {
                 height: 350px;
                 margin-top: 10px;
-                background: red;
 
                 .dv-border-box-8 {
                   width: 100%;

@@ -1,4 +1,4 @@
-import { ref, onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 
 // 平均年龄组件mock数据
 const ageMockData = [{
@@ -361,6 +361,35 @@ const salesListMockData = [
   }
 ]
 
+const realTimeOrderMockData = {
+  date: [
+    '12:25:13',
+    '12:25:17',
+    '12:25:22',
+    '12:25:27',
+    '12:25:32',
+    '12:25:37',
+    '12:25:43',
+    '12:25:47',
+    '12:25:53',
+    '12:25:57'
+  ],
+  data: [
+    1143, 769, 251, 146, 888, 348, 657, 1290, 1530, 950
+  ]
+}
+
+const scheduleViewMockData = [
+  ['2021-09-03', 1798], ['2021-09-08', 3248], ['2021-09-13', 4561],
+  ['2021-09-18', 2345], ['2021-09-23', 2157], ['2021-09-28', 8542],
+  ['2021-10-03', 1798], ['2021-10-08', 3248], ['2021-10-13', 4561],
+  ['2021-10-18', 2345], ['2021-10-23', 2157], ['2021-10-28', 8542],
+  ['2021-11-03', 1798], ['2021-11-08', 3248], ['2021-11-13', 4561],
+  ['2021-11-18', 2345], ['2021-11-23', 2157], ['2021-11-28', 8542],
+  ['2021-12-03', 1798], ['2021-12-08', 3248], ['2021-12-13', 4561],
+  ['2021-12-18', 2345], ['2021-12-23', 2157], ['2021-12-28', 8542]
+]
+
 function random (val) {
   return Math.floor(Math.random() * val)
 }
@@ -381,6 +410,8 @@ export default function () {
   const hotCategoryData = ref(hotCategoryMockData)
   const headerData = ref(headerMockData)
   const salesListData = ref(salesListMockData)
+  const realTimeOrderData = ref(realTimeOrderMockData)
+  const scheduleViewData = ref(scheduleViewMockData)
 
   // 模拟数据变化
   let task
@@ -453,6 +484,8 @@ export default function () {
     riderData,
     hotCategoryData,
     headerData,
-    salesListData
+    salesListData,
+    realTimeOrderData,
+    scheduleViewData
   }
 }
