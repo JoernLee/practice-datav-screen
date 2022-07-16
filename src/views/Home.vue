@@ -81,7 +81,9 @@
               <div class="right-right1">
                 <sales-list :data="salesListData"/>
               </div>
-              <div class="right-right2">666</div>
+              <div class="right-right2">
+                <sales-rank :data="salesRankData"/>
+              </div>
             </div>
           </div>
         </div>
@@ -110,6 +112,7 @@ import SalesList from '../components/SalesList/index'
 import OrderMap from '../components/OrderMap/index'
 import RealTimeOrder from '../components/RealTimeOrder/index'
 import ScheduleView from '../components/ScheduleView/index'
+import SalesRank from '../components/SalesRank/index'
 
 export default {
   name: 'Home',
@@ -128,7 +131,8 @@ export default {
     TotalGender,
     OrderMap,
     RealTimeOrder,
-    ScheduleView
+    ScheduleView,
+    SalesRank
   },
     setup () {
       const loading = ref(true)

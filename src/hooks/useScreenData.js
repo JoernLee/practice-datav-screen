@@ -390,6 +390,26 @@ const scheduleViewMockData = [
   ['2021-12-18', 2345], ['2021-12-23', 2157], ['2021-12-28', 8542]
 ]
 
+const salesRankMockData = [
+  {
+    city: '北京',
+    rate: '-12%',
+    shop: [{
+      shop: '必胜客',
+      order: 484,
+      sales: 9447
+    }, {
+      shop: '肯德基',
+      order: 718,
+      sales: 9068
+    }, {
+      shop: '麦当劳',
+      order: 332,
+      sales: 5431
+    }]
+  }
+]
+
 function random (val) {
   return Math.floor(Math.random() * val)
 }
@@ -412,6 +432,7 @@ export default function () {
   const salesListData = ref(salesListMockData)
   const realTimeOrderData = ref(realTimeOrderMockData)
   const scheduleViewData = ref(scheduleViewMockData)
+  const salesRankData = ref(salesRankMockData)
 
   // 模拟数据变化
   let task
@@ -486,6 +507,7 @@ export default function () {
     headerData,
     salesListData,
     realTimeOrderData,
-    scheduleViewData
+    scheduleViewData,
+    salesRankData
   }
 }
